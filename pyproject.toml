@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "podcast-search"
+version = "0.1.0"
+description = "Podcast RSS ingest + per-feed vector search (spec 001-podcast-search)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "cachetools>=5.3",
+  "fastapi>=0.109",
+  "uvicorn[standard]>=0.27",
+  "streamlit>=1.31",
+  "chromadb>=0.4.22",
+  "openai>=1.12",
+  "feedparser>=6.0",
+  "pydantic>=2.6",
+  "pydantic-settings>=2.2",
+  "httpx>=0.26",
+  "python-dotenv>=1.0",
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4",
+  "pytest-cov>=4.1",
+]
+
+[project.scripts]
+podcast-ingest = "podcast_search.ingest:cli_main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-v --cov=podcast_search --cov=api --cov-report=term-missing --cov-fail-under=75"
+filterwarnings = [
+  "ignore::DeprecationWarning",
+]
